@@ -232,6 +232,17 @@ todosMenores (a,b,c) = (f a > g a) && (f b > g b) && (f c > g c)
 
 -}
 
+bisiesto :: Integer -> Bool
+bisiesto x | (mod x 4) /= 0 || (mod x 100 == 0  && mod x 400 /= 0) = False -- Si el año es divisible por 4 entonces en principio tiene potencial de ser un año bisiesto
+           | otherwise = True
+
+bisiesto2 :: Integer -> Bool
+bisiesto2 x | mod x 100 == 0 = mod x 400 == 0
+           | otherwise = mod x 4 == 0 -- Esta es otra forma distinta
+
+bisiesto3 :: Integer -> Bool
+bisiesto3 x = not(mod x 4 == 0) && not ((mod x 100 /= 0 && mod x 400 == 0)) 
+
 {-
     la frase 
     "falso ↔  año no es multiplo de 4, o año es multiplo de 100 pero no de 400"
