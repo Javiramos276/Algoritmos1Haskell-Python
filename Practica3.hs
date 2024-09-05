@@ -231,16 +231,6 @@ todosMenores (a,b,c) = (f a > g a) && (f b > g b) && (f c > g c)
 
 -}
 
-bisiesto :: Integer -> Bool
-bisiesto x | (mod x 4) /= 0 || (mod x 100 == 0  && mod x 400 /= 0) = False -- Si el año es divisible por 4 entonces en principio tiene potencial de ser un año bisiesto
-           | otherwise = True
-
-bisiesto2 :: Integer -> Bool
-bisiesto2 x | mod x 100 == 0 = mod x 400 == 0
-           | otherwise = mod x 4 == 0 -- Esta es otra forma distinta
-
-bisiesto3 :: Integer -> Bool
-bisiesto3 x = not(mod x 4 == 0) && not ((mod x 100 /= 0 && mod x 400 == 0)) 
 
 {-
     la frase 
@@ -254,13 +244,17 @@ bisiesto3 x = not(mod x 4 == 0) && not ((mod x 100 /= 0 && mod x 400 == 0))
     Sin embargo, los años divisibles entre 100 y entre 400 sí que son bisiestos.
 -}
 
-{-
-bisiesto :: Integer -> Bool
-bisiesto anio | (mod anio 4) == 0 && (mod anio 100) == 0 -- Si el año es divisible por 4 entonces en principio tiene potencial de ser un año bisiesto
-              | (mod anio 4) == 0 
-              | (mod anio 400) 
 
--}
+bisiesto :: Integer -> Bool
+bisiesto x | (mod x 4) /= 0 || (mod x 100 == 0  && mod x 400 /= 0) = False -- Si el año es divisible por 4 entonces en principio tiene potencial de ser un año bisiesto
+           | otherwise = True
+
+bisiesto2 :: Integer -> Bool
+bisiesto2 x | mod x 100 == 0 = mod x 400 == 0
+           | otherwise = mod x 4 == 0 -- Esta es otra forma distinta
+
+bisiesto3 :: Integer -> Bool
+bisiesto3 x = not(mod x 4 == 0) && not ((mod x 100 /= 0 && mod x 400 == 0)) 
 
 {-
         Ejercicio 7. a) Implementar una funcion:
