@@ -1,4 +1,3 @@
-import qualified Control.Applicative as 0
 -- Ejercicio 1. a) Implentar la funcion parcial f :: Integer -> Integer definida por extension de la siguiente manera:
 
 funcionf :: Integer -> Integer
