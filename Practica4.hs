@@ -233,3 +233,52 @@ sumaPotenciasAux q n m = q^(n+m) + sumaPotenciasAux q (n-1) m
 sumaPotencias :: Integer -> Integer -> Integer -> Integer
 sumaPotencias q n 1 = q^(1+n)
 sumaPotencias q n m = q^(n+m) + sumaPotencias q n (m-1) + sumaPotenciasAux q n m
+{-
+
+Ejercicio 15. Implementar una funcion sumaRacionales :: Integer->Integer->Float que dados dos naturales n,m sume todos los n´ umeros racionales de la forma p/q con 1 ≤ p ≤ n y 1 ≤ q ≤ m, es decir: problema sumaRacionales (n : N, m : N) : R { requiere: { True} n asegura: { resultado = }
+-}
+
+sumaRacionales :: Integer -> Integer -> Float
+sumaRacionales 0 m  = 0 
+sumaRacionales n m  = sumaRacionales (n-1) m + sumaInterna n m -- Creo que esto esta bien pero no entiendo bien que hice ...    
+
+-- Esta funcion tomaria solo 2 parametros, p y q 
+sumaInterna :: Integer -> Integer -> Float
+sumaInterna p 0 = 0 -- aca definimos como 0 si dividimos por 0 (nunca llegamos a este caso)
+sumaInterna p q = fromIntegral p / fromIntegral q + sumaInterna p (q-1) --Tenemos que convertir el dato a un float con FromIntegral
+
+
+{-
+Ejercicio 16. Recordemos que un entero p > 1 es primo si y s´olo si no existe un entero k tal que 1 < k < p y k divida a p.
+
+a) Implementar menorDivisor :: Integer->Integer que calcule el menor divisor (mayor que 1) de un natural n pasado como par´ametro.
+-}
+
+menorDivisor :: Integer -> Integer 
+menorDivisor x = menorDivisorAux x 2
+
+menorDivisorAux :: Integer -> Integer -> Integer
+menorDivisorAux x divisor | mod x divisor == 0 = divisor
+                          | otherwise = menorDivisorAux x (divisor+1)
+
+{-
+b) Implementar la funci´on esPrimo :: Integer->Bool que indica si un n´ umero natural pasado como par´ametro es primo.
+-}
+
+esPrimo :: Integer -> Bool
+esPrimo n | menorDivisorAux n 2 == n = True 
+          | otherwise = False
+
+{-
+
+c) Implementar la funci´on sonCoprimos :: Integer->Integer->Bool que dados dos n´ umeros naturales indica si no tienen alg´ un divisor en com´ un mayor estricto que 1.
+
+-}
+
+sonCoprimos :: Integer -> Integer -> Bool
+sonCoprimos a b = sonCoprimosAux a b 2
+
+sonCoprimosAux :: Integer -> Integer -> Integer -> Bool
+sonCoprimosAux a b divisor | (mod a divisor == 0) && (mod b divisor == 0) = False
+                           | sonCoprimosAux a b (divisor + 1)
+
