@@ -119,3 +119,117 @@ Un ejemplo de esto sería lo siguiente, supongamos el siguiente numero: 4568
     45    2  
 -}
 
+{-
+Ejercicio 10. Especificar, implementar y dar el tipo de las siguientes funciones (s´ımil Ejercicio 4 Pr´actica 2 de Algebra 1).
+
+a) f1(n) = sum desde i=0 hasta n 2^i , n ∈ N0.
+-}
+
+sumatoria1 :: Integer -> Integer -> Integer
+sumatoria1 i 0 = 1
+sumatoria1 i n = 2^n + sumatoria1 i (n-1)
+
+{-
+b) f2(n, q) = sum desde i = 0 hasta n q^i , n ∈ N y q ∈ R
+-}
+
+sumatoria2 :: Integer -> Integer -> Float -> Float
+sumatoria2 i 0 q = 1
+sumatoria2 i n q = q^n + sumatoria2 i (n-1) q 
+
+{-
+c) f3(n, q) = sum desde i = 1 hasta 2n q^i , n ∈ N y q ∈ R
+-}
+
+-- sumatoria3 ::  Integer -> Float -> Float
+-- sumatoria3 1 _  = 1
+-- sumatoria3 _ q = 2*q
+-- sumatoria3 n q = q^(n) + sumatoria2 (n+1) q 
+
+{-
+d) f4(n, q) = sum desde i = n hasta 2n q^i , n ∈ N y q ∈ R
+-}
+
+sumatoria4 :: Integer -> Float -> Float
+sumatoria4 0 q = 1
+sumatoria4 n q = q^(n)+ sumatoria4 (n+1) q
+
+{-
+Ejercicio 11. a) Especificar e implementar una funci´on eAprox :: Integer ->Float que aproxime el valor del n´umero e
+a partir de la siguiente sumatoria:
+
+sum i=0 hasta n de 1/i!
+
+-}
+
+nfactorial :: Integer -> Integer
+nfactorial n | n == 0 = 1
+             | otherwise = n*nfactorial(n-1)
+
+
+eAprox :: Integer -> Float
+eAprox 1 = 2 --Esto esta bien? O sea si da la funcion pero es raro definirlo asi...
+eAprox n = 1 / fromIntegral (nfactorial n) + eAprox(n-1)
+-- Aca fromIntegral lo que hace es cambiarme el tipo de la funcion de Integer a Float porque asi lo requiere la funcion "/"
+
+{-
+b) Definir la constante e :: Float como la aproximaci´on de e a partir de los primeros 10 t´erminos de la serie anterior.
+¡Atenci´on! A veces ciertas funciones esperan un Float y nosotros tenemos un Int. Para estos casos podemos utilizar la
+funci´on fromIntegral :: Int ->Float definida en el Preludio de Haskell.
+
+-}
+
+e :: Float
+e = eAprox 10
+
+{-
+Ejercicio 12. Para n ∈ N se define la sucesi´on:
+Lo cual resulta en la siguiente definicion recursiva: a1 = 2, an = 2 + 1
+an−1
+. Utilizando esta sucesi´on, especificar e implementar
+una funci´on raizDe2Aprox :: Integer ->Float que dado n ∈ N devuelva la aproximaci´on de √
+2 definida por √
+2 ≈ an−1.
+Por ejemplo:
+raizDe2Aprox 1 ⇝ 1
+raizDe2Aprox 2 ⇝ 1,5
+raizDe2Aprox 3 ⇝ 1,4
+-}
+
+sucesionRecursiva :: Integer -> Float
+sucesionRecursiva 1 = 2
+sucesionRecursiva n = 2 + 1 / sucesionRecursiva(n-1)
+
+raizDe2Aprox :: Integer -> Float 
+raizDe2Aprox n = sucesionRecursiva (n) - 1
+
+{-
+Ejercicio 13. Especificar e implementar la siguiente funci´on:
+
+f(n,m) = es una doble sumatoria i^j
+
+-}
+
+-- Esto sería la sumatoria interna
+sumatoriaInterna :: Integer -> Integer -> Integer
+sumatoriaInterna _ 0 = 0
+sumatoriaInterna n j = n^j + sumatoriaInterna n (j-1)
+
+sumatoriaDoble :: Integer -> Integer -> Integer
+sumatoriaDoble 0 _ = 0
+sumatoriaDoble n m = sumatoriaDoble (n-1) m + sumatoriaInterna n m
+
+{-
+Ejercicio 14. Especificar e implementar una funci´on sumaPotencias :: Integer ->Integer ->Integer ->Integer que
+dados tres naturales q, n, m sume todas las potencias de la forma q
+a+b
+con 1 ≤ a ≤ n y 1 ≤ b ≤ m.
+-}
+
+sumaPotenciasAux :: Integer -> Integer -> Integer -> Integer 
+sumaPotenciasAux q 1 m = q^(1+m)
+sumaPotenciasAux q n m = q^(n+m) + sumaPotenciasAux q (n-1) m 
+
+sumaPotencias :: Integer -> Integer -> Integer -> Integer
+sumaPotencias q n 1 = q^(1+n)
+sumaPotencias q n m = q^(n+m) + sumaPotencias q n (m-1) + sumaPotenciasAux q n m
