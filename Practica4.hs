@@ -275,12 +275,12 @@ c) Implementar la funci´on sonCoprimos :: Integer->Integer->Bool que dados dos 
 
 -}
 
-sonCoprimos :: Integer -> Integer -> Bool
-sonCoprimos a b = sonCoprimosAux a b 2
+-- sonCoprimos :: Integer -> Integer -> Bool
+-- sonCoprimos a b = sonCoprimosAux a b 2
 
-sonCoprimosAux :: Integer -> Integer -> Integer -> Bool
-sonCoprimosAux a b divisor | (mod a divisor == 0) && (mod b divisor == 0) = False
-                           | sonCoprimosAux a b (divisor + 1)
+-- sonCoprimosAux :: Integer -> Integer -> Integer -> Bool
+-- sonCoprimosAux a b divisor | (mod a divisor == 0) && (mod b divisor == 0) = False
+--                            | sonCoprimosAux a b (divisor + 1)
 
 {-
 Ejercicio 17. Implementar la funci´on esFibonacci :: Integer ->Bool seg´un la siguiente especificaci´on:
@@ -291,4 +291,13 @@ asegura: { resultado = true ↔ n es alg´un valor de la secuencia de Fibonacci 
 -}
 
 esFibonacci :: Integer -> Bool
-esFibonacci n = True
+esFibonacci 0 = True
+esFibonacci 1 = True
+esFibonacci n | n == fibAux n  = True
+              | n > fibAux n = False
+              | otherwise = esFibonacci n
+
+fibAux :: Integer -> Integer
+fibAux 0 = 0
+fibAux 1 = 1
+fibAux b  = fibAux(b-1) + fibAux(b-2)
