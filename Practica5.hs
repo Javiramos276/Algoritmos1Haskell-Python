@@ -28,19 +28,35 @@ asegura: { resultado = subseq(s, 0, |s| − 1) }
 -}
 
 principio :: [t] -> [t]
-principio [] = []
-principio (x:xs) = ultimo (x:xs)
+principio [_] = []
+principio (x:xs) = x : principio xs
+
+{-
+4. reverso :: [t] -> [t] seg´un la siguiente especificaci´on:
+problema reverso (s: seq⟨T⟩) : seq⟨T⟩ {
+requiere: { T rue }
+asegura: { resultado tiene los mismos elementos que s pero en orden inverso.}
+}
+-}
+
+reverso :: [t] -> [t]
+reverso [] = []
+reverso (x:xs) = ultimo (x:xs) : reverso (principio(x:xs))
+
+{-
+Ejercicio 2. Definir las siguientes funciones sobre listas:
+1. pertenece :: (Eq t) => t -> [t] -> Bool seg´un la siguiente especificaci´on:
+problema pertenece (e: T, s: seq⟨T⟩) : B {
+requiere: { T rue }
+asegura: { resultado = true ↔ e ∈ s }
+}
+-}
 
 
 {-5. quitar :: (Eq t) => t -> [t] -> [t], que dados un entero x y una lista xs, elimina la primera aparici´on de x en
 la lista xs (de haberla).
-
 -}
 
-quitar :: (Eq t) => t -> [t] -> [t]
-quitar _ [] = []
-quitar x (y:ys) | x == head (y:ys) = quitar x ys
-                | otherwise = ys
 
 {-
 Resolucion hecha por los profes
@@ -104,11 +120,11 @@ el parametro m aca deberia aumentar de a 1 para hacer la iteracion en fibAux
 ordenar
 -}
 
-minimo :: [Int] -> Int
-minimo (x:xs) | xs == [] = x
-              | x <= head xs = minimo (x:(tail xs))
-              | otherwise = minimo xs 
+-- minimo :: [Int] -> Int
+-- minimo (x:xs) | xs == [] = x
+--               | x <= head xs = minimo (x:(tail xs))
+--               | otherwise = minimo xs 
 
-ordenar :: [Int] -> [Int]
-ordenar [] = []
-ordenar x = (minimo x) : (ordenar (quitar (minimo x) x))
+-- ordenar :: [Int] -> [Int]
+-- ordenar [] = []
+-- ordenar x = (minimo x) : (ordenar (quitar (minimo x) x))
