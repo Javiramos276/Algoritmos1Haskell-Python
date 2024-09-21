@@ -27,6 +27,10 @@ asegura: { resultado = subseq(s, 0, |s| − 1) }
 }
 -}
 
+principio :: [t] -> [t]
+principio [] = []
+principio (x:xs) = ultimo (x:xs)
+
 
 {-5. quitar :: (Eq t) => t -> [t] -> [t], que dados un entero x y una lista xs, elimina la primera aparici´on de x en
 la lista xs (de haberla).
@@ -74,27 +78,27 @@ maximo (x:xs) | xs == [] = x
 Ejercicio 17 fibonacci
 -}
 
-esFibonacci :: Integer -> Bool
-esFibonacci 0 = True
-esFibonacci 1 = True
-esFibonacci n | n == esFibonacciAux n 1  = True
-              | n > esFibonacciAux n 1 = False
-              | otherwise = esFibonacci n
+-- esFibonacci :: Integer -> Bool
+-- esFibonacci 0 = True
+-- esFibonacci 1 = True
+-- esFibonacci n | n == esFibonacciAux n 1  = True
+--               | n > esFibonacciAux n 1 = False
+--               | otherwise = esFibonacci n
 
-fibAux :: Integer -> Integer
-fibAux 0 = 0
-fibAux 1 = 1
-fibAux b  = fibAux(b-1) + fibAux(b-2)
+-- fibAux :: Integer -> Integer
+-- fibAux 0 = 0
+-- fibAux 1 = 1
+-- fibAux b  = fibAux(b-1) + fibAux(b-2)
 
 {-
 Aca voy a tener que usar esta funcion auxiliar para poder hacer una iteracion a la fibAux, es decir,
 el parametro m aca deberia aumentar de a 1 para hacer la iteracion en fibAux
 -}
 
-esFibonacciAux :: Integer -> Integer -> Integer
-esFibonacciAux n m | n < fibAux m = esFibonacciAux n m+1
-                   | n == fibAux m = n
-                   | otherwise = 
+-- esFibonacciAux :: Integer -> Integer -> Integer
+-- esFibonacciAux n m | n < fibAux m = esFibonacciAux n m+1
+--                    | n == fibAux m = n
+--                    | otherwise = 
 
 {-
 ordenar
