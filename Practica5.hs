@@ -286,3 +286,46 @@ ordenar
 -- ordenar :: [Int] -> [Int]
 -- ordenar [] = []
 -- ordenar x = (minimo x) : (ordenar (quitar (minimo x) x))
+
+{-
+Ejercicio 4. a) Definir las siguientes funciones sobre listas de caracteres, interpretando una palabra como una secuencia de
+caracteres sin blancos:
+a) sacarBlancosRepetidos :: [Char] -> [Char], que reemplaza cada subsecuencia de blancos contiguos de la primera lista por un solo blanco en la lista resultado.
+
+Esto sería por ejemplo algo asi ['h','o','l',' ', ' ', ' ','a'] -> ['h','o','l',' ','a']
+-}
+
+sacarBlancosRepetidos :: [Char] -> [Char]
+sacarBlancosRepetidos [x] = [x]
+sacarBlancosRepetidos (x:y:xs)| (x == y) && (x == ' ') = sacarBlancosRepetidos(y:xs)
+                              | otherwise = x:sacarBlancosRepetidos(y:xs)
+
+{-
+b) contarPalabras :: [Char] -> Integer, que dada una lista de caracteres devuelve la cantidad de palabras que
+tiene.
+-}
+
+contarPalabras :: [Char] -> Integer
+contarPalabras [] = 0
+contarPalabras (' ':xs) = contarPalabras xs
+contarPalabras (x:y:xs)| not (tieneEspacios (quitarEspacioBlancoInicioYFinal (sacarBlancosRepetidos (x:y:xs)))) = 1
+                       | otherwise = 1 + contarPalabras(y:xs)
+
+quitarEspacioBlancoInicioYFinal :: [Char] -> [Char]
+quitarEspacioBlancoInicioYFinal (x:xs)| x == ' ' = quitarEspacioBlancoInicioYFinal (quitar x (x:xs))
+                                      | ultimo xs == ' ' = quitarEspacioBlancoInicioYFinal (quitar (ultimo xs) (x:xs))
+                                      | otherwise = x:xs
+
+tieneEspacios :: [Char] -> Bool
+tieneEspacios (x:xs)| pertenece ' ' (x:xs) = True
+                    | otherwise = False
+
+
+{-
+c) palabras :: [Char] -> [[Char]], que dada una lista arma una nueva lista con las palabras de la lista original.
+
+Aca debería asumir que en el requiere la lista debería tener alguna palabra no ? Voy a resolverlo considerando eso
+-}
+
+-- palabras :: [Char] -> [[Char]]
+-- palabras (x:xs) = 
