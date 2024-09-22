@@ -193,19 +193,6 @@ productoria [] = 1
 productoria (x:xs) = x * productoria xs
 
 {-
-4. sumarN :: Integer -> [Integer] -> [Integer] seg´un la siguiente especificaci´on:
-problema sumarN (n: Z, s: seq⟨Z⟩) : seq⟨Z⟩ {
-requiere: { T rue }
-asegura: {|resultado| = |s| ∧ cada posici´on de resultado contiene el valor que hay en esa posici´on en s sumado
-n }
-}
--}
-
-sumarN :: Integer -> [Integer] -> [Integer]
-sumarN n [] = []
-sumarN n (x:xs) = (n+x): sumarN n xs
-
-{-
 3. maximo :: [Integer] -> Integer seg´un la siguiente especificaci´on:
 problema maximo (s: seq⟨Z⟩) : Z {
 requiere: { |s| > 0 }
@@ -219,34 +206,73 @@ maximo (x:xs) | xs == [] = x
               | x >= head xs = maximo (x:(tail xs))
               | otherwise = maximo xs 
 
+{-
+4. sumarN :: Integer -> [Integer] -> [Integer] seg´un la siguiente especificaci´on:
+problema sumarN (n: Z, s: seq⟨Z⟩) : seq⟨Z⟩ {
+requiere: { T rue }
+asegura: {|resultado| = |s| ∧ cada posici´on de resultado contiene el valor que hay en esa posici´on en s sumado
+n }
+}
+-}
+
+sumarN :: Integer -> [Integer] -> [Integer]
+sumarN n [] = []
+sumarN n (x:xs) = (n+x): sumarN n xs
 
 
 {-
-
-Ejercicio 17 fibonacci
+5. sumarElPrimero :: [Integer] -> [Integer] seg´un la siguiente especificaci´on:
+problema sumarElPrimero (s: seq⟨Z⟩) : seq⟨Z⟩ {
+requiere: { |s| > 0 }
+asegura: {resultado = sumarN(s[0], s) }
+}
+Por ejemplo sumarElPrimero [1,2,3] da [2,3,4]
 -}
 
--- esFibonacci :: Integer -> Bool
--- esFibonacci 0 = True
--- esFibonacci 1 = True
--- esFibonacci n | n == esFibonacciAux n 1  = True
---               | n > esFibonacciAux n 1 = False
---               | otherwise = esFibonacci n
-
--- fibAux :: Integer -> Integer
--- fibAux 0 = 0
--- fibAux 1 = 1
--- fibAux b  = fibAux(b-1) + fibAux(b-2)
+sumarElPrimero :: [Integer] -> [Integer]
+sumarElPrimero (x:xs) = sumarN x (x:xs)
 
 {-
-Aca voy a tener que usar esta funcion auxiliar para poder hacer una iteracion a la fibAux, es decir,
-el parametro m aca deberia aumentar de a 1 para hacer la iteracion en fibAux
+6. sumarElUltimo :: [Integer] -> [Integer] seg´un la siguiente especificaci´on:
+problema sumarElUltimo (s: seq⟨Z⟩) : seq⟨Z⟩ {
+requiere: { |s| > 0 }
+asegura: {resultado = sumarN(s[|s| − 1], s) }
+}
 -}
 
--- esFibonacciAux :: Integer -> Integer -> Integer
--- esFibonacciAux n m | n < fibAux m = esFibonacciAux n m+1
---                    | n == fibAux m = n
---                    | otherwise = 
+sumarElUltimo :: [Integer] -> [Integer]
+sumarElUltimo (x:xs) = sumarN (ultimo (x:xs)) (x:xs)
+
+{-
+7. pares :: [Integer] -> [Integer] seg´un la siguiente especificaci´on:
+problema pares (s: seq⟨Z⟩) : seq⟨Z⟩ {
+requiere: { T rue }
+asegura: {resultado s´olo tiene los elementos pares de s en el orden dado, respetando las repeticiones}
+}
+Por ejemplo pares [1,2,3,5,8,2] da [2,8,2]
+-}
+
+pares :: [Integer] -> [Integer]
+pares [] = []
+pares (x:xs) | mod x 2 == 0 = x: pares(xs)
+             | otherwise = pares (quitar x (x:xs))
+
+{-
+8. multiplosDeN :: Integer -> [Integer] -> [Integer] que dado un n´umero n y una lista xs, devuelve una lista
+con los elementos de xs m´ultiplos de n.
+-}
+
+multiplosDeN :: Integer -> [Integer] -> [Integer]
+multiplosDeN _ [] = []
+multiplosDeN x (y:ys) | mod y x == 0 = y: multiplosDeN x ys
+                      | otherwise = multiplosDeN x (quitar y (y:ys))
+
+{-
+9. ordenar :: [Integer] -> [Integer] que ordena los elementos de la lista en forma creciente. Sugerencia: Pensar
+c´omo pueden usar la funcion maximo para que ayude a generar la lista ordenada necesaria.
+-}
+
+
 
 {-
 ordenar

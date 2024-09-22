@@ -301,3 +301,31 @@ fibAux :: Integer -> Integer
 fibAux 0 = 0
 fibAux 1 = 1
 fibAux b  = fibAux(b-1) + fibAux(b-2)
+
+
+{-
+
+Ejercicio 17 fibonacci
+-}
+
+-- esFibonacci :: Integer -> Bool
+-- esFibonacci 0 = True
+-- esFibonacci 1 = True
+-- esFibonacci n | n == esFibonacciAux n 1  = True
+--               | n > esFibonacciAux n 1 = False
+--               | otherwise = esFibonacci n
+
+-- fibAux :: Integer -> Integer
+-- fibAux 0 = 0
+-- fibAux 1 = 1
+-- fibAux b  = fibAux(b-1) + fibAux(b-2)
+
+{-
+Aca voy a tener que usar esta funcion auxiliar para poder hacer una iteracion a la fibAux, es decir,
+el parametro m aca deberia aumentar de a 1 para hacer la iteracion en fibAux
+-}
+
+-- esFibonacciAux :: Integer -> Integer -> Integer
+-- esFibonacciAux n m | n < fibAux m = esFibonacciAux n m+1
+--                    | n == fibAux m = n
+--                    | otherwise = 
