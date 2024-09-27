@@ -158,7 +158,7 @@ darIndice vice [] _ = 0
 darIndice vice [x] votos | vice == snd x = head votos
                          | otherwise = 0
 darIndice vice (x:xs) votos| pertenece vice [x] = head votos
-                           | pertenece vice xs = 1 + darIndice vice xs
+                           | pertenece vice xs = darIndice vice xs (tail votos)
 
 longitud :: [t] -> Integer
 longitud [] = 0
@@ -167,10 +167,10 @@ longitud l = 1 + longitud(tail l)
 -- darVotosDeFormula :: Integer -> [Integer] -> Integer
 -- darVotosDeFormula indice votos| indice == longitud votos =
 
-devolverCantidadDeVotos :: String -> [(String,String)] -> Integer
--- Esta funcion le paso el nombre de un vicepresidente, se fija si esta en la tupla y devuelve la cantidad de votos
-devolverCantidadDeVotos vice formulas | pertenece vice formulas = darIndice vice formulas
-                                      | otherwise = 0
+-- devolverCantidadDeVotos :: String -> [(String,String)] -> Integer
+-- -- Esta funcion le paso el nombre de un vicepresidente, se fija si esta en la tupla y devuelve la cantidad de votos
+-- devolverCantidadDeVotos vice formulas | pertenece vice formulas = darIndice vice formulas
+--                                       | otherwise = 0
 
 
 -- porcentajeDeVotos :: String -> [(String,String)] -> [Integer] -> Float
