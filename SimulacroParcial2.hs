@@ -153,19 +153,19 @@ problema porcentajeDeVotos (vice: String, formulas: seq⟨String x String⟩,vot
 Para resolver este ejercicio pueden utilizar la función division presentada en el Ejercicio 1.
 -}
 
-darIndice :: String -> [(String,String)] -> Integer
-darIndice vice [] = 0
-darIndice vice [x] | vice == fst x || vice == snd x = 1
-                   | otherwise = 0
-darIndice vice (x:xs) | pertenece vice [x] = 1
-                      | pertenece vice xs = 1 + darIndice vice xs
+darIndice :: String -> [(String,String)] -> [Integer] -> Integer
+darIndice vice [] _ = 0
+darIndice vice [x] votos | vice == snd x = head votos
+                         | otherwise = 0
+darIndice vice (x:xs) votos| pertenece vice [x] = head votos
+                           | pertenece vice xs = 1 + darIndice vice xs
 
 longitud :: [t] -> Integer
 longitud [] = 0
 longitud l = 1 + longitud(tail l)
 
-darVotosDeFormula :: Integer -> [Integer] -> Integer
-darVotosDeFormula indice votos| indice == longitud votos =
+-- darVotosDeFormula :: Integer -> [Integer] -> Integer
+-- darVotosDeFormula indice votos| indice == longitud votos =
 
 devolverCantidadDeVotos :: String -> [(String,String)] -> Integer
 -- Esta funcion le paso el nombre de un vicepresidente, se fija si esta en la tupla y devuelve la cantidad de votos
