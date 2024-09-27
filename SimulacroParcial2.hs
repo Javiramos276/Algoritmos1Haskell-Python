@@ -140,3 +140,39 @@ formulasInvalidas ((a,b):xs)| hayTuplasConIgualValor ((a,b):xs) = True
                             | hayTuplasIguales ((a,b):xs) = True
                             | hayNombresRepetidos ((a,b):xs) = True
                             | otherwise = False
+{-
+3) Porcentaje de Votos [3 puntos]
+problema porcentajeDeVotos (vice: String, formulas: seq⟨String x String⟩,votos:seq< Z >) : R {
+ requiere: {La segunda componente de algún elemento de formulas es vice}
+ requiere: {¬formulasInvalidas(formulas)}
+ requiere: {|formulas| = |votos|}
+ requiere: {Todos los elementos de votos son mayores o iguales a 0}
+ requiere: {Hay al menos un elemento de votos mayores estricto a 0}
+ asegura: {res es el porcentaje de votos que obtuvo vice sobre el total de votos afirmativos}
+}
+Para resolver este ejercicio pueden utilizar la función division presentada en el Ejercicio 1.
+-}
+
+darIndice :: String -> [(String,String)] -> Integer
+darIndice vice [] = 0
+darIndice vice [x] | vice == fst x || vice == snd x = 1
+                   | otherwise = 0
+darIndice vice (x:xs) | pertenece vice [x] = 1
+                      | pertenece vice xs = 1 + darIndice vice xs
+
+longitud :: [t] -> Integer
+longitud [] = 0
+longitud l = 1 + longitud(tail l)
+
+darVotosDeFormula :: Integer -> [Integer] -> Integer
+darVotosDeFormula indice votos| indice == longitud votos =
+
+devolverCantidadDeVotos :: String -> [(String,String)] -> Integer
+-- Esta funcion le paso el nombre de un vicepresidente, se fija si esta en la tupla y devuelve la cantidad de votos
+devolverCantidadDeVotos vice formulas | pertenece vice formulas = darIndice vice formulas
+                                      | otherwise = 0
+
+
+-- porcentajeDeVotos :: String -> [(String,String)] -> [Integer] -> Float
+-- no hay tuplas repetidas, no hay tuplas iguales no hay nombres repetidos
+
