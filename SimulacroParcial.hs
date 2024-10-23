@@ -47,13 +47,11 @@ quitarNombresRepetidos (x:xs)| perteneceNombres [x] xs = quitarNombresRepetidos 
 {- Solucion ejercicio 3 -}
 
 amigosDe :: String -> [(String,String)] -> [String]
-amigosDe persona [] = []
-amigosDe persona [(a,b)]| persona == a = [b]
-                        | persona == b = [a]
-                        | otherwise = []
-amigosDe persona ((a,b):xs)| persona == a = [b]
-                           | persona == b = [a]
-                           | otherwise = amigosDe persona xs
+amigosDe _ [] = []
+amigosDe persona ((a,b):xs)
+  | persona == a = b : amigosDe persona xs
+  | persona == b = a : amigosDe persona xs
+  | otherwise = amigosDe persona xs
 
 {- Solucion ejercicio 4 -}
 
@@ -63,6 +61,17 @@ cantidadDeAmigos nombre [(a,b)] | nombre == a || nombre == b = 1
                                 | otherwise = 0
 cantidadDeAmigos nombre ((a,b):xs)| nombre == a || nombre == b  = 1 + cantidadDeAmigos nombre xs
                                   | otherwise = cantidadDeAmigos nombre xs
+
+perteneceNombre :: String -> [(String,String)] -> Bool
+perteneceNombre x [] = False
+perteneceNombre x (y:ys)| x == fst y = True
+                        | otherwise = perteneceNombre x ys
+
+darNombreYAmigos :: String -> [(String,String)] -> [(String,Integer)]
+darNombreYAmigos nombre [] = [(nombre,0)]
+darNombreYAmigos nombre [(a,b)] = [(nombre,cantidadDeAmigos nombre [(a,b)])]
+darNombreYAmigos nombre (x:xs)| perteneceNombre nombre (x:xs) = [(nombre,cantidadDeAmigos nombre (x:xs))]
+                              | otherwise = (nombre,cantidadDeAmigos nombre (x:xs)):darNombreYAmigos 
 
 -- personaConMasAmigos :: [(String,String)] -> String
 -- personaConMasAmigos ((a,b):xs) | cantidadDeAmigos a ((a,b):xs) > cantidadDeAmigos b ((a,b):xs) = personaConMasAmigos xs
