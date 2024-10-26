@@ -232,21 +232,23 @@ def hay_3_numeros_consecutivos_iguales(lista_numeros:list)-> bool:
 contrario
 """
 
-def hay_3_letras_distintas(palabra:str)->bool:
+def hay_3_vocales_distintas(palabra:str)->bool:
     lista_caracteres = descomponer_palabra(palabra)
     vocales = ["a","e","i","o","u"]
-    contador = 1
+    contador = 0
 
-    for i in range(len(vocales)-1):
+    for i in range(len(vocales)):
         if pertenece1(lista_caracteres, vocales[i]):
             contador += 1
-        print(contador)
     if contador >= 3:
         return True
     else:
         return False
     
-# print(hay_3_letras_distintas("murcie"))
+print(hay_3_vocales_distintas("murcie"))
+print(hay_3_vocales_distintas("vocales"))
+print(hay_3_vocales_distintas("mariposa"))
+print(hay_3_vocales_distintas("anahi"))
 
 """
 13. Recorrer una seq⟨Z⟩ y devolver la posici´on donde inicia la secuencia de n´umeros ordenada m´as larga. Si hay dos
@@ -273,4 +275,4 @@ def pos_secuencia_mas_larga(numeros: list[int])-> int:
 # print(pos_secuencia_mas_larga([1,2,3,4,2,3,4,5,6]))
 # print(pos_secuencia_mas_larga([1,2,3]))
 # print(pos_secuencia_mas_larga([1,2,3,0,10,12,13,44,55,66,-1,0,1,2,3,4,5,7,8,9]))
-print(pos_secuencia_mas_larga([1,1,1,1,2,2,2,2,2,2]))
+# print(pos_secuencia_mas_larga([1,1,1,1,2,2,2,2,2,2]))
