@@ -275,4 +275,178 @@ def pos_secuencia_mas_larga(numeros: list[int])-> int:
 # print(pos_secuencia_mas_larga([1,2,3,4,2,3,4,5,6]))
 # print(pos_secuencia_mas_larga([1,2,3]))
 # print(pos_secuencia_mas_larga([1,2,3,0,10,12,13,44,55,66,-1,0,1,2,3,4,5,7,8,9]))
-# print(pos_secuencia_mas_larga([1,1,1,1,2,2,2,2,2,2]))
+print(pos_secuencia_mas_larga([1,1,1,1,2,2,2,2,2,2]))
+
+"""
+1. problema CerosEnPosicionesPares (inout s:seq⟨Z⟩) {
+requiere: { T rue }
+modifica: {s}
+asegura: { (|s| = |s@pre|) y (para todo i entero, con 0 <= i < |s|, si i es impar entonces s[i] = s@pre[i] y, si i
+es par, entonces s[i] = 0)}
+}
+"""
+
+def CerosEnPosicionesPares(s:list[int])-> list[int]:
+    for i in range(len(s)):
+        if i % 2 == 0:
+            s[i] = 0
+            
+    return s
+
+#Aca por la especificacion tengo que devolver s, en este caso s es modificado porque es inout
+#Basicamente que algo sea in significa que tengo que tener cuidado y al momento de devolverlo tiene que ser exactamente igual
+#A como entro en la funcion
+
+#print(CerosEnPosicionesPares([1,2,3,4,5,6,7,8]))
+
+"""
+2. problema CerosEnPosicionesPares2 (in s:seq⟨Z⟩) : seq⟨Z⟩ {
+requiere: { T rue }
+asegura: { (|s| = |res|) y (para todo i entero, con 0 <= i < |res|, si i es impar entonces res[i] = s[i] y, si i es
+par, entonces res[i] = 0)}
+}
+"""
+
+def CerosEnPosicionesPares2(s:list[int])-> list[int]:
+    resultado: list = []
+    for i in range(len(s)):
+        if i % 2 == 0:
+            resultado.append(s[i])
+        else:
+            resultado.append(0)
+    return resultado
+
+def CerosEnPosicionesPares2Profes(s:list[int])-> list[int]:
+    res:list[int] = s.copy()
+    for i in range(0,len(s),2):
+        res[i]=0
+    return res 
+
+#La diferencia es que aca estoy haciendo una copia de S, no estoy referenciando literalmente a S.
+#Chequear esta diferencia utilizando el debugging!
+
+#print(CerosEnPosicionesPares2([1,2,3,4,5,6,7,8]))
+
+#La diferencia entre 2.1 y 2.2 es que en la 2.2 NO PUEDO modificar mi s porque es unicamente de entrada, cuando sale de la funcion
+#Tiene que ser igual a como entro porque es in 
+
+"""
+3. Dada una cadena de caracteres devuelva una cadena igual a la anterior, pero sin las vocales. No se agregan espacios,
+sino que borra la vocal y concatena a continuaci´on.
+"""
+
+
+def sin_vocales(palabra:str)-> str:
+    vocales: list = ["a","e","i","o","u"]
+    res: list = []
+    for caracter in palabra:
+        if not (caracter in vocales):
+            res.append(caracter)
+
+    palabra: str = ''
+    for caracter in res:
+        palabra += caracter
+    return palabra
+
+#print(sin_vocales("murcielago"))
+
+"""
+4. problema reemplaza vocales (in s:seq⟨Char⟩) : seq⟨Char⟩ {
+requiere: { T rue }
+asegura: {|res| = |s|}
+asegura: {Para todo i ∈ Z, si 0 ≤ i < |res| → (pertenece(<‘a’,‘e’,‘i’,‘o’,‘u’>, s[i]) ∧ res[i] = ‘_’) ∨
+(¬ pertenece(<‘a’,‘e’,‘i’,‘o’,‘u’>, s[i]) ∧ res[i] = s[i] ) ) }
+}
+"""
+
+def reemplazar_vocales(palabra:str)-> str:
+    vocales: list = ["a","e","i","o","u"]
+    res: list = []
+    for caracter in palabra:
+        if not (caracter in vocales):
+            res.append(caracter)
+        else:
+            res.append('_')
+
+    palabra: str = ''
+    for caracter in res:
+        palabra += caracter
+    return palabra
+
+#print(reemplazar_vocales("murcielago"))
+
+"""
+5. problema da vuelta str (in s:seq⟨Char⟩) : seq⟨Char⟩ {
+requiere: { T rue }
+asegura: {|res| = |s|}
+asegura: { Para todo i ∈ Z si 0 ≤ i < |res| → res[i] = s[|s| − i − 1]}
+}
+"""
+
+def invertir_palabra(palabra = str) -> list:
+    palabra_invertida = []
+    i = len(palabra)
+    while i > 0:
+        palabra_invertida.append(palabra[i-1])
+        i -= 1
+    return palabra_invertida
+
+def da_vuelta_str(palabra:str)-> str:
+    palabra_invertida: str = ''
+    for caracter in invertir_palabra(palabra):
+        palabra_invertida += caracter
+    return palabra_invertida
+
+#print(da_vuelta_str("murcielago"))
+
+"""
+6. problema eliminar repetidos (in s:seq⟨Char⟩) : seq⟨Char⟩ {
+requiere: { True }
+asegura: {(|res| ≤ |s|) ∧ (para todo i ∈ Z si 0 ≤ i < |s| → pertenece(s[i], res)) ∧ (para todo i, j ∈ Z si
+(0 ≤ i, j < |res| ∧ i̸ = j) → res[i]̸ = res[j])}
+}
+"""
+
+def eliminar_repetidos(palabra:str)-> str:
+    lista_caracteres: list = []
+    for caracter in palabra:
+        lista_caracteres.append(caracter)
+
+    print(lista_caracteres)
+    for caracter in lista_caracteres:
+        if caracter in lista_caracteres:
+            lista_caracteres.pop()
+    
+    return lista_caracteres
+
+#print(eliminar_repetidos("paaaaaaaaaatitos"))
+
+
+#Ejercicio 3 Matrices.
+"""
+1. problema pertenece a cada uno version 1 (in s:seq⟨seq⟨Z⟩⟩, in e:Z, out res: seq⟨Bool⟩) {
+requiere: { True }
+asegura: { |res| ≥ |s|}
+asegura: { Para todo i ∈ Z si 0 ≤ i < |s| → (res[i] = true ↔ pertenece(s[i], e))}
+}
+Nota: Reutilizar la funci´on pertenece() implementada previamente para listas
+"""
+
+def pertenece1 (s=list[int], z=int)-> bool:
+    for elemento in s:
+        if elemento == z:
+            return True
+    return False
+
+def pertenece_matrices(s:list[list[int]],e:int, res:list[bool]):
+    res.clear()
+    for row in s:
+        res.append(pertenece1(row,e))
+
+mi_respuesta= [False,True,False]
+s= [[1,2],[2,3,4],[8,8,8]]
+print(mi_respuesta)
+pertenece_matrices(s,1,mi_respuesta)
+print(mi_respuesta)
+
+#La respuesta que tengo que dar es esto, no hay return porque en la especificacion no dice nada de retornar un valor.
