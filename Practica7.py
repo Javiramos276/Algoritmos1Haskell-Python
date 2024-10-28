@@ -245,10 +245,10 @@ def hay_3_vocales_distintas(palabra:str)->bool:
     else:
         return False
     
-print(hay_3_vocales_distintas("murcie"))
-print(hay_3_vocales_distintas("vocales"))
-print(hay_3_vocales_distintas("mariposa"))
-print(hay_3_vocales_distintas("anahi"))
+# print(hay_3_vocales_distintas("murcie"))
+# print(hay_3_vocales_distintas("vocales"))
+# print(hay_3_vocales_distintas("mariposa"))
+# print(hay_3_vocales_distintas("anahi"))
 
 """
 13. Recorrer una seq⟨Z⟩ y devolver la posici´on donde inicia la secuencia de n´umeros ordenada m´as larga. Si hay dos
@@ -275,7 +275,7 @@ def pos_secuencia_mas_larga(numeros: list[int])-> int:
 # print(pos_secuencia_mas_larga([1,2,3,4,2,3,4,5,6]))
 # print(pos_secuencia_mas_larga([1,2,3]))
 # print(pos_secuencia_mas_larga([1,2,3,0,10,12,13,44,55,66,-1,0,1,2,3,4,5,7,8,9]))
-print(pos_secuencia_mas_larga([1,1,1,1,2,2,2,2,2,2]))
+# print(pos_secuencia_mas_larga([1,1,1,1,2,2,2,2,2,2]))
 
 """
 1. problema CerosEnPosicionesPares (inout s:seq⟨Z⟩) {
@@ -443,10 +443,252 @@ def pertenece_matrices(s:list[list[int]],e:int, res:list[bool]):
     for row in s:
         res.append(pertenece1(row,e))
 
-mi_respuesta= [False,True,False]
-s= [[1,2],[2,3,4],[8,8,8]]
-print(mi_respuesta)
-pertenece_matrices(s,1,mi_respuesta)
-print(mi_respuesta)
+# mi_respuesta= [False,True,False]
+# s= [[1,2],[2,1,4],[8,8,1]]
+# print(mi_respuesta)
+# pertenece_matrices(s,1,mi_respuesta)
+# print(mi_respuesta)
 
 #La respuesta que tengo que dar es esto, no hay return porque en la especificacion no dice nada de retornar un valor.
+
+
+"""
+Ejercicio 6. Implementar las siguientes funciones sobre matrices (secuencias de secuencias):
+1. problema es matriz (in s:seq⟨seq⟨Z⟩⟩) : Bool {
+requiere: { True }
+asegura: { res = true ↔ (|s| > 0) ∧ (|s[0]| > 0) ∧ (Para todo i ∈ Z si 0 ≤ i < |s| → |s[i]| = |s[0]|)}
+}
+"""
+
+def esMatriz(s:list[list[int]])-> bool:
+    #Basicamente la especificacion me dice que la longitud para s en la posicion i tiene que ser igual a la longitud de la primer lista que aparece
+    if (len(s)> 0 and len(s[0]) >0):
+        for fila in s:
+            if not (len(s[0]) == len(fila)):
+                return False
+        else:
+            return True
+    else:
+        return False
+
+# print(esMatriz(s = [[1,2,3],[4,5,6],[7,8,9]]))
+# print(esMatriz(s = [[1,2,3],[4,5,6,4],[7,8,9]]))
+# print(esMatriz(s = [[],[4,5,6,4],[7,8,9]]))
+# print(esMatriz(s = [[1],[4,5,6,4],[7,8,9]]))
+# print(esMatriz(s = [[3,4],[4,5],[7,8,]]))
+
+"""
+2. problema filas ordenadas (in m:seq⟨seq⟨Z⟩⟩, out res: seq⟨Bool⟩) {
+requiere: { esM atriz(m)}
+asegura: { Para todo i ∈ Z si 0 ≤ i < |res| → (res[i] = true ↔ ordenados(s[i])) }
+}
+
+"""
+
+# res= [True,False,False]
+
+def filas_ordenadas(m:list[list[int]], res:list[bool]):
+    res.clear() # Aca estoy tomando por referencia a la lista res para modificarla dentro de esta funcion.
+    for fila in m:
+        if ordenados(fila):
+            res.append(ordenados(fila))
+"""
+La especificacion de este problema me esta diciendo que la variable res que es de tipo out significa que no
+debe retornar nada la funcion. Esto es que la variable res ya existe antes y luego al llamar a la funcion filas_ordenadas
+la misma modifica la variable global res. Pero no la retorna como tal
+"""
+
+# print(res)
+# print(filas_ordenadas(m=[[1,2,3],[4,5,6],[7,8,9]],res=res))
+# print(res)
+
+"""
+problema columna (in m:seq⟨seq⟨Z⟩⟩, in c: Z) : seq⟨Z⟩ {
+requiere: { esM atriz(m)}
+requiere: { c < |m[0]|}
+requiere: { c ≥ 0}
+asegura: { Devuelve una secuencia con exactamente los mismos elementos de la columna c de la matriz m, en
+el mismo orden que aparecen}
+}
+
+"""
+
+def columna(m:list[list[int]],c:int) -> list[int]:
+    lista_columna : list[int] = [] 
+    for fila in m:
+        lista_columna.append(fila[c])
+    return lista_columna
+
+# print(columna(m=[[1,2,3],[4,5,6],[7,8,9]],c=2))
+
+
+"""
+4. problema columnas ordenadas (in m:seq⟨seq⟨Z⟩⟩) : seq⟨Bool⟩ {
+requiere: { esM atriz(m)}
+asegura: { Para toda columna c ∈ m → (res[c] = true ↔ ordenados(columna(m, c))) }
+}
+Nota: Reutilizar la funci´on ordenados() implementada previamente para listas
+"""
+
+def columnas_ordenadas(m:list[list[int]]) -> list[bool]:
+    lista_columnas:list[int] = []
+    
+    for fila in range(len (m)):
+        lista_columnas.append(columna(m,fila))
+    
+    for i in range(len(lista_columnas)):
+        if not (ordenados(lista_columnas[i])):
+            return False
+    else:
+        return True
+    
+
+# print(columnas_ordenadas(m=[[4,7,9],[4,5,6],[8,9,10]]))
+# print(columnas_ordenadas(m=[[1,2,3],[4,5,6],[7,8,9]]))
+# print(columnas_ordenadas(m=[[1,4,8],[4,2,6],[7,8,9]]))
+# print(columnas_ordenadas(m=[[8,1,2],[4,5,6],[7,8,9]]))
+
+"""
+5. problema transponer (in m:seq⟨seq⟨Z⟩⟩) : seq⟨seq⟨Z⟩⟩ {
+requiere: { esM atriz(m)}
+asegura: {Devuelve mt
+(o sea la matriz transpuesta)}
+}
+Nota: Usar columna() para ir obteniendo todas las columnas de la matriz
+"""
+
+def transponer(m:list[list[int]])-> list[list[int]]:
+    matriz_transpuesta: list[list[int]] = []
+    for fila in range(len (m)):
+        matriz_transpuesta.append(columna(m,fila))
+
+    return matriz_transpuesta
+
+
+# print(transponer(m=[[1,2,3],[4,5,6],[7,8,9]]))
+# print(transponer(m=[[1,0,3],[6,9,6],[10,2,1]]))
+# print(transponer(m=[[1,0],[6,9],[10,1]])) #Tira error porque no respeta la especificacion de columna requiere: { c < |m[0]|}
+
+"""
+6. Ta-Te-Ti Tradicional:
+problema quien gana tateti (in m:seq⟨seq⟨Char⟩⟩) : Z {
+requiere: {esMatriz(m)}
+requiere: {|m| = 3}
+requiere: {|m[0]| = 3}
+requiere: {En la matriz si hay 3 X alineadas verticalmente =⇒ no hay 3 O alineadas verticalmente}
+requiere: {En la matriz si hay 3 O alineadas verticalmente =⇒ no hay 3 X alineadas verticalmente}
+requiere: {En la matriz si hay 3 X alineadas horizontalmente =⇒ no hay 3 O alineadas horizontalmente}
+requiere: {En la matriz si hay 3 O alineadas horizontalmente =⇒ no hay 3 X alineadas horizontalmente}
+requiere: {(Para todo i,j ∈ {0, 1, 2}) (m[i][j] = X∨ m[i][j] = O∨ m[i][j] = ” ”)}
+asegura: {Si hay 3 O alineadas verticalmente, horizontalmente o en diagonal, devuelve 0}
+asegura: {Si hay 3 X alineadas verticalmente, horizontalmente o en diagonal, devuelve 1}
+asegura: {Si no hay ni 3 X, ni 3 O alineadas verticalmente, horizontalmente o en diagonal, devuelve 2}
+}
+
+"""
+
+def pertenece_matrices_aux(s:list[list[str]],e:str) ->list[bool]:
+    res = []
+    for row in s:
+        res.append(pertenece1(row,e))
+    return res
+
+
+def tateti(m:list[list[str]])-> int:
+
+    #Caso 1: hay 3 "O" o 3 "X" alineadas horizontalmente o verticalmente
+    #Tateti en diagonal
+    for fila in m:
+        print(f'la matriz es:',fila)
+
+    if (m[0][0] == m[1][1] == m[2][2]) and m[0][0] == 'x':
+        return 1
+    elif (m[0][0] == m[1][1] == m[2][2]) and m[0][0] == 'o':
+        return 0
+        
+
+    # Alineacion de filas
+    for fila in m:
+        if (pertenece_matrices_aux(fila,"x")) == [True,True,True]:
+            return 1
+        elif (pertenece_matrices_aux(fila,"o")) == [True,True,True]:
+            return 0
+        
+    #Alineacion de columnas
+    for col in transponer(m):
+        if (pertenece_matrices_aux(col,"x")) == [True,True,True]:
+            return 1
+        elif (pertenece_matrices_aux(col,"o")) == [True,True,True]:
+            return 0
+
+    return 2
+
+# print(tateti([["x","x","o"],["o","x","o"],["x","o","o"]])) #Una fila es tateti res: deberia ser 0
+# print(tateti([["x","x","o"],["x","x","o"],["x","o","x"]])) #Una columna es tateti (de x) debería ser 1
+# print(tateti([["x","o","o"],["o","x","o"],["x","o","x"]])) #La diagonal de x es tateti res: deberia ser 1
+# print(tateti([["o","x","x"],["x","o","x"],["o","x","o"]])) #La diagonal de o es tateti res: debería ser 0
+# print(tateti([["o","x","x"],["x","o","o"],["o","x","x"]])) #La diagonal de o es tateti res: debería ser 2
+
+
+"""
+Ejercicio 7. Vamos a elaborar programas interactivos (usando la funci´on input() 3
+) que nos permita solicitar al usuario
+informaci´on cuando usamos las funciones.
+1. Implementar una funci´on para construir una lista con los nombres de mis estudiantes. La funci´on solicitar´a al usuario
+los nombres hasta que ingrese la palabra “listo”, o vac´ıo (el usuario aprieta ENTER sin escribir nada). Devuelve la
+lista con todos los nombres ingresados.
+
+"""
+
+def ingresar_nombres():
+    nombres:list = []
+    valor_input = input("Ingrese los nombres de los estudiantes: ")
+
+    while (valor_input != "listo" and valor_input != ""):
+        nombres.append(valor_input)
+        valor_input = input("Ingrese los nombres de los estudiantes: ")
+
+    return nombres
+    
+# print(ingresar_nombres())
+
+"""
+2. Implementar una funci´on que devuelve una lista con el historial de un monedero electr´onico (por ejemplo la SUBE).
+El usuario debe seleccionar en cada paso si quiere:
+“C” = Cargar cr´editos,
+“D” = Descontar cr´editos,
+“X” = Finalizar la simulaci´on (terminar el programa).
+En los casos de cargar y descontar cr´editos, el programa debe adem´as solicitar el monto para la operaci´on. Vamos a
+asumir que el monedero comienza en cero. Para guardar la informaci´on grabaremos en el historial tuplas que representen
+los casos de cargar (“C”, monto a cargar) y descontar cr´edito (“D”, monto a descontar).
+
+"""
+
+def monedero_electronico():
+    valor_input = input("Ingrese su operacion:“C” = Cargar créditos,“D” = Descontar créditos,“X” = Finalizar la simulación (terminar el programa). ")
+    monedero: list[(str,float)] = []
+
+    while (valor_input == "C" or valor_input == "D"):
+        if valor_input == "C":
+            cargar_credito: tuple = input("Ingrese su carga en formato ('C',monto a cargar), pulsar X para finalizar: ")
+            monedero.append(cargar_credito)
+            valor_input = input("Si desea hacer otra carga digite C, si quiere descontar creditos digite D, digite X para finalizar: ")
+        elif valor_input == "D":
+            descontar_credito: tuple = input("Ingrese su descarga en formato ('D',monto a descargar), pulsar X para finalizar: ")
+            monedero.append(descontar_credito)
+            valor_input = input("Si desea hacer otra carga digite C, si quiere descontar creditos digite D, digite X para finalizar: ")
+        
+    return monedero
+
+# print(monedero_electronico())
+
+"""
+3. Vamos a escribir un programa para simular el juego conocido como 7 y medio. El mismo deber´a generar un n´umero
+aleatorio entre 0 y 12 (excluyendo el 8 y 9) y deber´a luego preguntarle al usuario si desea seguir sacando otra “carta”
+o plantarse. En este ´ultimo caso el programa debe terminar. Los n´umeros aleatorios obtenidos deber´an sumarse seg´un
+el n´umero obtenido salvo por las “figuras” (10, 11 y 12) que sumar´an medio punto cada una. El programa debe ir
+acumulando los valores y si se pasa de 7.5 debe informar que el usuario ha perdido. Al finalizar la funci´on devuelve
+el historial de “cartas” que hizo que el usuario gane o pierda. Para generar n´umeros pseudo-aleatorios entre 1 y 12
+utilizaremos la funci´on random.randint(1,12). Al mismo tiempo, la funci´on random.choice() puede ser de gran
+ayuda a la hora de repartir cartas.
+"""
