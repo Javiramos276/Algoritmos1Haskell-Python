@@ -643,5 +643,351 @@ def agrupar_por_longitud(nombre_archivo:str)-> dict:
         
     archivo.close()
 
+"""
+1. Pilas
+Ejercicio 1. Implementar una funci´on generar nros al azar(in cantidad : int, in desde : int, in hasta : int) → Pila[int]
+que genere una pila de cantidad de n´umeros enteros al azar en el rango [desde, hasta].
+Pueden usar la funci´on random.randint(< desde >, < hasta >) y la clase LifoQueue() que es un ejemplo de una implemen-
+taci´on b´asica:
+from queue import LifoQueue as Pila
+p = Pila ()
+p . put (1) # apilar
+elemento = p . get () # desapilar
+p . empty () # vacia ?
+"""
+from queue import LifoQueue as Pila
+import random
+from queue import Queue as Cola
+
+
+def generar_nros_al_azar(cantidad:int, desde:int, hasta:int)-> Pila[int]:
+    p = Pila ()
+    i = 0
+
+    while i <= cantidad:
+        numeros = random.randint(desde,hasta)
+        p.put(numeros)
+        i += 1
+
+    while not p.empty():
+       print(p.get()) 
+
+    return p
+
+#print(generar_nros_al_azar(8,1,10))
+"""
+Ejercicio 2. Implementar una funci´on cantidad elementos(in p : Pila) → int que, dada una pila, cuente y devuelva la can-
+tidad de elementos que contiene. No se puede utilizar la funci´on LifoQueue.qsize(). Si se usa get() para recorrer la pila, esto
+modifica el par´ametro de entrada. Y como la especificaci´on dice que es de tipo in hay que restaurarla
+"""
+
+#No olvidarse que cuando la pila es de tipo in hay que regenerarla!!!
+
+def cantidad_elementos(p:Pila)-> int:
+    contador = 0
+    pila_aux = Pila()
+
+    #Obtenemos la cantidad de elementos, vaciamos la pila p que entro como parametro in
+    while not p.empty():
+        elemento_pila = p.get()
+        contador += 1
+        pila_aux.put(elemento_pila)
+
+    #Utilizamos la pila auxiliar para restaurar la pila original y luego accedemos a ella por fuera de la funcion
+    #Con un bucle while
+    while not pila_aux.empty():
+        p.put(pila_aux.get())
+
+    return contador
+
+#
+#pila = Pila()
+#pila.put(1)
+#pila.put(2)
+#pila.put(14)
+#pila.put(19)
+#print(cantidad_elementos(pila))
+#
+#while not pila.empty():
+#    print(pila.get())
+
+"""
+Ejercicio 3. Dada una pila de enteros, implementar una funci´on buscar el maximo(in p : Pila[int]) → int que devuelva el
+m´aximo elemento.
+"""
+
+def maximo(s=list[int]) -> int:
+    maximo_valor = s[0]
+    i = 0  
+
+    while i < len(s) - 1:
+        if s[i + 1] > maximo_valor:  
+            maximo_valor = s[i + 1]  
+        i += 1  
+    
+    return maximo_valor
+
+def buscar_el_maximo(p: Pila)-> int:
+    pila_aux = Pila()
+    lista_numeros = []
+
+    #Obtenemos los elementos de la pila y los agregamos a la lista
+    while not p.empty():
+        elemento = p.get() 
+        lista_numeros.append(elemento)
+        pila_aux.put(elemento)    
+        
+    #Restauramos la pila original
+    while not pila_aux.empty():
+        p.put(pila_aux.get())
+
+    return maximo(lista_numeros)
+
+#pila = Pila()
+#pila.put(3)
+#pila.put(8)
+#pila.put(-1)
+#pila.put(2)
+#
+#print(f'el maximo es: ', buscar_el_maximo(pila))
+#
+#while not pila.empty():
+#    print(pila.get())
+
+"""
+Resolucion hecha por los profesores
+"""
+def buscar_el_maximo_profes(p:Pila)-> int:
+    contenedor : Pila[int] = Pila()
+    primerElemento = p.get()
+    maximo = primerElemento
+    contenedor.put(maximo)
+
+    while not p.empty():
+        elementoActual = p.get()
+        if maximo < elementoActual:
+            maximo = elementoActual
+        contenedor.put(elementoActual)
+
+    #Vaciamos el contenedor y llenamos la pila original
+    while not contenedor.empty():
+        p.put(contenedor.get())
+
+    return maximo
+"""
+Ejercicio 4. Dada una pila de tuplas de string x enteros, implementar una funci´on buscar nota maxima(in p : Pila[tuple[str, int]]) → que devuelva la tupla donde aparece la m´axima nota (segunda componente de la tupla). La pila no est´a vac´ıa, no hay valores en
+las segundas posiciones repetidas en la pila
+"""
+
+def buscar_nota_maxima(p: Pila(tuple[str,int])) -> tuple[str,int]:
+    pila_aux = Pila()
+    primerElemento: tuple = p.get()
+    maximo: int = primerElemento[1]
+    pila_aux.put(maximo)
+
+    while not p.empty():
+        elementoActual = p.get()
+        if maximo < elementoActual:
+            maximo = elementoActual
+        pila_aux.put(elementoActual)
+
+    #Vaciamos el contenedor y llenamos la pila original
+    while not pila_aux.empty():
+        p.put(pila_aux.get())
+
+"""
+Ejercicio 13. Bingo: un cart´on de bingo contiene 12 n´umeros al azar en el rango [0, 99].
+1. implementar una funci´on armar secuencia de bingo() → Cola[int] que genere una cola con los n´umeros del 0 al 99
+ordenados al azar.
+2. implementar una funci´on jugar carton de bingo(in carton : list[int], in bolillero : Cola[int]) → int que toma un
+cart´on de Bingo y una cola de enteros (que corresponden a las bolillas numeradas) y determina cual es la cantidad de
+jugadas de ese bolillero que se necesitan para ganar
+"""
+
+def armar_secuencia_bingo()-> Cola[int]:
+    lista = []
+    contenedor = Cola()
+    #Creamos una lista con 100 valores
+    for i in range(0,100):
+        lista.append(i)
+
+    random.shuffle(lista) #a random.shuffle se le pasa una lista de y retorna dicha lista con los valores desordenados
+    for numero in lista:
+        contenedor.put(numero)
+
+    return contenedor
+
+contenedor = armar_secuencia_bingo()
+while not contenedor.empty():
+    contenedor.get()
+
+def jugar_carton_de_bingo(carton: list[int], bolillero: Cola[int]) -> int:
+    bingo : int = 0
+    jugadas: int = 0
+    contenedor: Cola[int] = Cola()
+
+    while bingo < len(carton):
+        jugadas += 1
+        bolita_actual = bolillero.get()
+        contenedor.put(bolita_actual)
+        if bolita_actual in carton:
+            bingo += 1
+
+    #Saque todas las bolitas del bolillero
+    while not bolillero.empty():
+        contenedor.put(bolillero.get())
+
+    #Pongo todas las bolitas del contenedor en el bolillero
+    while not contenedor.empty():
+        bolillero.put(contenedor.get())
+
+    return jugadas
+
+
+"""
+Ejercicio 16. Leer un archivo de texto y agrupar la cantidad de palabras de acuerdo a su longitud. Implementar la funci´on
+agrupar por longitud(in nombre archivo : str) → dict
+que devuelve un diccionario {longitud en letras : cantidad de palabras}.
+Ej el diccionario
+{
+1: 2 ,
+2: 10 ,
+5: 4
+}
+indica que se encontraron 2 palabras de longitud 1, 10 palabras de longitud 2 y 4 palabras de longitud 5. Para este ejercicio
+vamos a considerar palabras a todas aquellas secuencias de caracteres que no tengan espacios en blanco
+"""
+def pertenece(s=list[str], z=str)-> bool:
+    for elemento in s:
+        if elemento == z:
+            return True
+    return False
+
+def agrupar_por_longitud(nombre_archivo:str)-> dict:
+    archivo = open(nombre_archivo,"r")
+    contenido = archivo.read()
+    longitud_en_letras:int = 0
+    dict_res:dict = {}
+    for caracter in contenido:
+        if caracter != ' ' and caracter != "\n":
+            longitud_en_letras += 1
+        else:
+            if not pertenece(dict_res,caracter):
+                dict_res[longitud_en_letras] = 1
+            else:
+                dict_res[longitud_en_letras] += 1
+            longitud_en_letras = 0
+    
+    archivo.close()
+    return dict_res
+
+#dict_rest = agrupar_por_longitud("ej16.txt")
+#print(dict_rest)
+
+def palabras(lineas:str) -> list[str]:
+    return lineas.split()
+
+def agrupar_por_longitud_profes(nombre_archivo:str)-> dict[int,int]:
+    archivo = open(nombre_archivo,'r')
+    lineas = archivo.readlines()
+    dicc: dict[int,int] = {} 
+    for linea in lineas:
+        for palabra in palabras(linea):
+            if len(palabra) in dicc:
+                dicc[len(palabra)] += 1
+            else:
+                dicc[len(palabra)] = 1
+    archivo.close()
+    return dicc
+
+#dict_res = agrupar_por_longitud_profes("ej16.txt")
+#print(dict_res)
+
+
+def contar_lineas(archivo:str):
+    archivo = open(archivo,'r')
+    a = archivo.readlines()
+    res = len(a)
+    archivo.close()
+    return res
+
+#print(contar_lineas("contar_lineas.txt"))
+
+"""
+Ejercicio 22. Dado un archivo de texto con comentarios, implementar una funcion
+clonar sin comentarios(in nombre archivo : str) que toma un archivo de entrada y genera un nuevo archivo que tiene el
+contenido original sin las lıneas comentadas. Para este ejercicio vamos a considerar comentarios como aquellas l´ıneas que tienen
+un car´acter ‘#’como primer car´acter de la l´ınea, o si no es el primer car´acter, se cumple que todos los anteriores son espacios.
+Ejemplo:
+# esto es un comentario
+# esto tambien
+esto no es un comentario # esto tampoco
+"""
+
+def eliminar_repetidos(palabra:str)-> str:
+    lista_caracteres: list = []
+    for caracter in palabra:
+        lista_caracteres.append(caracter)
+
+    for caracter in lista_caracteres:
+        if caracter in lista_caracteres:
+            lista_caracteres.pop()
+    
+    return lista_caracteres
+
+def clonar_sin_comentarios(archivo_entrada:str,archivo_salida:str):
+    arch_entrada = open(archivo_entrada,"r")
+    arch_salida = open(archivo_salida,"w")
+    lineas = arch_entrada.readlines()
+    for linea in lineas:
+        if not ((pertenece(linea,"#")) and (linea[0] == "#")):
+            arch_salida.write(linea)
+
+    arch_entrada.close()
+    arch_salida.close()
+
+def es_comentario(linea:str)->bool:
+    return sacar_espacios(linea)[0] == "#"
+
+def sacar_espacios(linea:str)-> str:
+    res = ''
+    for letra in linea:
+       if letra != ' ':
+           res += letra
+
+    return res
+
+
+#clonar_sin_comentarios("ej22.txt","contar_lineas.txt")
+
+"""
+Ejercicio 18. Implementar la funci´on la palabra mas frecuente(in nombre archivo : str) → str que devuelve la palabra
+que m´as veces aparece en un archivo de texto. Se aconseja utilizar un diccionario de palabras para resolver el problem
+"""
+
+def palabra_mas_frecuente(nombre_archivo:str)-> str:
+    archivo = open(nombre_archivo,"r")
+    lineas = archivo.readlines()
+    dicc: dict[str,int] = {}
+    for linea in lineas:
+        for palabra in palabras(linea):
+            if palabra in dicc:
+                dicc[palabra] += 1
+            else:
+                dicc[palabra] = 1
+    archivo.close()
+
+    res: str = ''
+    maximo:int = 0
+    for pal in dicc.keys():
+        if dicc[pal] > maximo:
+            m = dicc[pal]
+            res = pal
+
+    return res 
+
+res = palabra_mas_frecuente("ej18.txt")
+print(res)
+
 
 agrupar_por_longitud("ej16.txt")
