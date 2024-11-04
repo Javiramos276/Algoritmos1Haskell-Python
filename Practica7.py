@@ -606,7 +606,6 @@ def tateti(m:list[list[str]])-> int:
     elif (m[0][0] == m[1][1] == m[2][2]) and m[0][0] == 'o':
         return 0
         
-
     # Alineacion de filas
     for fila in m:
         if (pertenece_matrices_aux(fila,"x")) == [True,True,True]:
@@ -623,7 +622,8 @@ def tateti(m:list[list[str]])-> int:
 
     return 2
 
-# print(tateti([["x","x","o"],["o","x","o"],["x","o","o"]])) #Una fila es tateti res: deberia ser 0
+
+print(tateti([["x","x","o"],["o","x","o"],["x","o","o"]])) #Una fila es tateti res: deberia ser 0
 # print(tateti([["x","x","o"],["x","x","o"],["x","o","x"]])) #Una columna es tateti (de x) debería ser 1
 # print(tateti([["x","o","o"],["o","x","o"],["x","o","x"]])) #La diagonal de x es tateti res: deberia ser 1
 # print(tateti([["o","x","x"],["x","o","x"],["o","x","o"]])) #La diagonal de o es tateti res: debería ser 0
@@ -665,7 +665,7 @@ los casos de cargar (“C”, monto a cargar) y descontar cr´edito (“D”, mo
 """
 
 def monedero_electronico():
-    valor_input = input("Ingrese su operacion:“C” = Cargar créditos,“D” = Descontar créditos,“X” = Finalizar la simulación (terminar el programa). ")
+    valor_input = input("Ingrese su operacion:'C' = Cargar créditos,'D' = Descontar créditos,'X' = Finalizar la simulación (terminar el programa). ")
     monedero: list[(str,float)] = []
 
     while (valor_input == "C" or valor_input == "D"):
